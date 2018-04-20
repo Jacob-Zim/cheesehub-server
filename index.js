@@ -22,27 +22,32 @@ app.use(
   })
 );
 
-app.get('/api/cheeses', (req, res, next) => {
-  const names = [
-    "Bath Blue",
-    "Barkham Blue",
-    "Buxton Blue",
-    "Cheshire Blue",
-    "Devon Blue",
-    "Dorset Blue Vinney",
-    "Dovedale",
-    "Exmoor Blue",
-    "Harbourne Blue",
-    "Lanark Blue",
-    "Lymeswold",
-    "Oxford Blue",
-    "Shropshire Blue",
-    "Stichelton",
-    "Stilton",
-    "Blue Wensleydale",
-    "Yorkshire Blue"
-  ];
+const names = [
+  "Bath Blue",
+  "Barkham Blue",
+  "Buxton Blue",
+  "Cheshire Blue",
+  "Devon Blue",
+  "Dorset Blue Vinney",
+  "Dovedale",
+  "Exmoor Blue",
+  "Harbourne Blue",
+  "Lanark Blue",
+  "Lymeswold",
+  "Oxford Blue",
+  "Shropshire Blue",
+  "Stichelton",
+  "Stilton",
+  "Blue Wensleydale",
+  "Yorkshire Blue"
+];
 
+app.get('/api/cheeses', (req, res, next) => {
+  res.json(names);
+});
+
+app.post('/api/cheeses', (req, res, next) => {
+  names.push(req.body.name);
   res.json(names);
 });
 
