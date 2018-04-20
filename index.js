@@ -47,7 +47,7 @@ app.get('/api/cheeses', (req, res, next) => {
 });
 
 app.post('/api/cheeses', (req, res, next) => {
-  names.push(req.body);
+  names.push(req.body.name);
   res.json(names);
 });
 
