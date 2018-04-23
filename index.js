@@ -29,9 +29,6 @@ const names = { location: [
 
 app.get('/', (req, res, next) => {
   Spot.create({names})
-    .then(() => {
-      return Spot.find().sort('location');
-    })
     .then(results => (
       res.json(results)
     ));
