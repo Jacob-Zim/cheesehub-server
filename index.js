@@ -42,11 +42,11 @@ const names = [
   "Yorkshire Blue"
 ];
 
-app.get('/api/cheeses', (req, res, next) => {
+app.get('/api/spots', (req, res, next) => {
   res.json(names);
 });
 
-app.post('/api/cheeses', (req, res, next) => {
+app.post('/api/spots', (req, res, next) => {
   names.push(req.body.name);
   res.json(names);
 });
