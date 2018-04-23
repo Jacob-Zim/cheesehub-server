@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
-
+const Spot = require('./models/Spot');
 const app = express();
 
 app.use(
@@ -22,28 +22,19 @@ app.use(
   })
 );
 
-const names = [
-  "Bath Blue",
-  "Barkham Blue",
-  "Buxton Blue",
-  "Cheshire Blue",
-  "Devon Blue",
-  "Dorset Blue Vinney",
-  "Dovedale",
-  "Exmoor Blue",
-  "Harbourne Blue",
-  "Lanark Blue",
-  "Lymeswold",
-  "Oxford Blue",
-  "Shropshire Blue",
-  "Stichelton",
-  "Stilton",
-  "Blue Wensleydale",
-  "Yorkshire Blue"
-];
+const names = { location: [
+  'Test1',
+  'Testa'
+]};
 
 app.get('/', (req, res, next) => {
-  res.json(names);
+  Spot.create({names})
+    .then(() => {
+      return Spot.find().sort('location');
+    })
+    .then(results => (
+      res.json(results)
+    ));
 });
 
 app.post('/spots', (req, res, next) => {

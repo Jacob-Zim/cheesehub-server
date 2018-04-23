@@ -1,8 +1,8 @@
 'use strict';
-const mongoose = require('mongoose');
+const { dbConnect } = require('./db-mongoose');
 
-const spotSchema = new mongoose.Schema({
+const spotSchema = new dbConnect.Schema({
   location: String
 });
 
-module.exports = mongoose.model('Spot', spotSchema);
+module.exports = dbConnect.model('Spot', spotSchema);
