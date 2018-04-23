@@ -7,8 +7,10 @@ const morgan = require('morgan');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
-const Spot = require('./models/Spot');
 const app = express();
+const bodyParser = require('body-parser');
+
+const spotsRouter = require('./routers/spots');
 
 //create a spots router once I start on the next endpoint
 
@@ -24,24 +26,12 @@ app.use(
   })
 );
 
-const names = { location: [
-  'Test1'
-]};
+//parses our json for us
+app.use(bodyParser.urlencoded({
+  extended:true
+}));
 
-app.get('/spots', (req, res, next) => {
-  Spot.find()
-    .then(results => (
-      res.json(results)
-    ));
-});
-
-app.post('/spots', (req, res, next) => {
-  const spot = {location:'new locon'};
-  Spot.create(spot)
-    .then(result => {
-      res.json(result);
-    });
-});
+app.use('/', spotsRouter);
 
 function runServer(port = PORT) {
   const server = app
