@@ -28,7 +28,7 @@ const names = { location: [
 ]};
 
 app.get('/', (req, res, next) => {
-  Spot.create({names})
+  Spot.create(names)
     .then(results => (
       res.json(results)
     ));
