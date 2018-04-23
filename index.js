@@ -10,6 +10,8 @@ const { dbConnect } = require('./db-mongoose');
 const Spot = require('./models/Spot');
 const app = express();
 
+//create a spots router once I start on the next endpoint
+
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
     skip: (req, res) => process.env.NODE_ENV === 'test'
@@ -23,20 +25,22 @@ app.use(
 );
 
 const names = { location: [
-  'Test1',
-  'Testa'
+  'Test1'
 ]};
 
-app.get('/', (req, res, next) => {
-  Spot.create(names)
+app.get('/spots', (req, res, next) => {
+  Spot.find()
     .then(results => (
       res.json(results)
     ));
 });
 
 app.post('/spots', (req, res, next) => {
-  names.push(req.body.name);
-  res.json(names);
+  const spot = {location:'new locon'};
+  Spot.create(spot)
+    .then(result => {
+      res.json(result);
+    });
 });
 
 function runServer(port = PORT) {
