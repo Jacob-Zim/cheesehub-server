@@ -2,7 +2,10 @@
 const mongoose = require('mongoose');
 
 const spotSchema = new mongoose.Schema({
-  location: String
+  location: String,
+  image: String,
+  mapsLink: String,
+  rating: Number
 });
 
 spotSchema.set('toObject', {
