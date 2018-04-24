@@ -20,7 +20,7 @@ router.get('/spots/:id', (req, res, next) => {
 });
   
 router.post('/spots', (req, res, next) => {
-  Spot.create({location:req.body.location})
+  Spot.create({lat:req.body.lat,lng:req.body.lng})
     .then(result => {
       res.json(result);
     });
