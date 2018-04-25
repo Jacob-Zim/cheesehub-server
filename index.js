@@ -36,9 +36,9 @@ app.use(
 );
 
 //parses our json for us
-// app.use(bodyParser.urlencoded({
-//   extended:true
-// }));
+app.use(bodyParser.urlencoded({
+  extended:true
+}));
 
 //app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
 
