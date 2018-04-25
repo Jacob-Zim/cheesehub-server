@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 
 const spotSchema = new mongoose.Schema({
   lat: Number,
-  lng: Number
+  lng: Number,
+  name: String,
+  notes: String,
+  rating: Number
 });
 
 spotSchema.set('toObject', {
