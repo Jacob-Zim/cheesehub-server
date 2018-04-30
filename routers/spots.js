@@ -29,8 +29,9 @@ router.post('/spots', (req, res, next) => {
   
 router.put('/spots/:id', (req, res, next) => {
   const spotId = req.params.id;
-  console.log(spotId);
-  Spot.findByIdAndUpdate(spotId, {location:req.body.location})
+  const { lat, lng, name, notes, rating } = req.body;
+  const newSpot = { lat, lng, name, notes, rating };
+  Spot.findByIdAndUpdate(spotId, newSpot, {new:true})
     .then(result => {
       res.json(result);
     });

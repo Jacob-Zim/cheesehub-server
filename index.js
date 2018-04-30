@@ -3,21 +3,22 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-//const passport = require('passport');
-//const localStrategy = require('./passport/local');
-//const jwtStrategy = require('./passport/jwt');
+const passport = require('passport');
+const localStrategy = require('./passport/local');
+const jwtStrategy = require('./passport/jwt');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
 const app = express();
 
-// passport.use(localStrategy);
-// passport.use(jwtStrategy);
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 const bodyParser = require('body-parser');
 
 const spotsRouter = require('./routers/spots');
+const authRouter = require('./routers/auth');
 
 const mapsURL = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAs68Fqn-liAuXfca9XygzOMByadH3KnKg&callback=initMap';
 
@@ -40,9 +41,9 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 
-//app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+// app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
 
-app.use('/', spotsRouter);
+app.use('/', spotsRouter, authRouter);
 
 function runServer(port = PORT) {
   const server = app
