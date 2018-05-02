@@ -1,27 +1,12 @@
+
 'use strict';
 const express = require('express');
 const router = express.Router();
 
 const Spot = require('../models/Spot');
 
-router.get('/spots', (req, res, next) => {
-  Spot.find()
-    .then(results => (
-      res.json(results)
-    ));
-});
-  
-router.get('/spots/:id', (req, res, next) => {
-  const spotId = req.params.id;
-  Spot.findById(spotId)
-    .then(result => {
-      res.json(result);
-    });
-});
-  
 router.post('/spots', (req, res, next) => {
-  console.log(req.body);
-  Spot.create({lat:req.body.lat, lng:req.body.lng, name:req.body.name, notes:req.body.notes, rating:req.body.rating})
+  Spot.create({lat:req.body.lat, lng:req.body.lng, name:req.body.name, notes:req.body.notes, rating:req.body.rating, userId:req.body.userId})
     .then(result => {
       res.json(result);
     });
@@ -29,19 +14,46 @@ router.post('/spots', (req, res, next) => {
   
 router.put('/spots/:id', (req, res, next) => {
   const spotId = req.params.id;
-  const { lat, lng, name, notes, rating } = req.body;
-  const newSpot = { lat, lng, name, notes, rating };
-  Spot.findByIdAndUpdate(spotId, newSpot, {new:true})
+  const { lat, lng, name, notes, rating, userId } = req.body;
+  const newSpot = { lat, lng, name, notes, rating, userId };
+  
+  Spot.findById(spotId)
+    .then(result => {
+      if(`${result.userId}` !== userId) {
+        return new Error('This spot does not belong to you');
+      }
+      if (`${result.userId}` === userId) {
+        return Spot.findByIdAndUpdate(spotId, newSpot, {new:true})
+          .then(result => {
+            res.json(result);
+          });
+      }
+    })
     .then(result => {
       res.json(result);
+    })
+    .catch(err => {
+
     });
 });
   
 router.delete('/spots/:id', (req, res, next) => {
   const spotId = req.params.id;
-  Spot.findByIdAndRemove(spotId)
+  const userId = req.body.userId;
+  Spot.findById(spotId)
+    .then(result => {
+      if(`${result.userId}` !== userId) {
+        return new Error('This spot does not belong to you');
+      }
+      if (`${result.userId}` === userId) {
+        return Spot.findByIdAndRemove(spotId);
+      }
+    })
     .then(result => {
       res.json(result);
+    })
+    .catch(err => {
+
     });
 });
 

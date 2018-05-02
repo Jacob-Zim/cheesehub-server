@@ -22,6 +22,7 @@ function createAuthToken (user) {
 const options = {session: false, failWithError: true};
 
 router.post('/users', (req, res) => {
+  console.log(req.body);
   const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -123,9 +124,7 @@ router.post('/users', (req, res) => {
         lastName
       });
     })
-    .then(user => {
-      return res.status(201).location(`/api/users/${user.id}`).json(user.apiRepr());
-    })
+    .then(user => res.status(201).json(user))
     .catch(err => {
       // Forward validation errors on to the client, otherwise give a 500
       // error because something unexpected has happened

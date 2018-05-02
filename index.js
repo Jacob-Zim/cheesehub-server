@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -14,6 +14,8 @@ const app = express();
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
+
+const Spot = require('./models/Spot');
 
 const bodyParser = require('body-parser');
 
@@ -41,9 +43,29 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 
-// app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+app.use(bodyParser.json());
 
-app.use('/', spotsRouter, authRouter);
+app.use('/', authRouter);
+
+app.get('/spots', (req, res, next) => {
+  Spot.find()
+    .then(results => (
+      res.json(results)
+    ));
+});
+
+app.get('/spots/:id', (req, res, next) => {
+  const spotId = req.params.id;
+  Spot.findById(spotId)
+    .then(result => {
+      res.json(result);
+    });
+});
+
+// require jwt for post put delete
+app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+
+app.use('/', spotsRouter);
 
 function runServer(port = PORT) {
   const server = app

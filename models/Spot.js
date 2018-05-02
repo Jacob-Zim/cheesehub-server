@@ -6,7 +6,8 @@ const spotSchema = new mongoose.Schema({
   lng: Number,
   name: String,
   notes: String,
-  rating: Number
+  rating: Number,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 spotSchema.set('toObject', {
