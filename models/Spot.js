@@ -7,6 +7,8 @@ const spotSchema = new mongoose.Schema({
   name: String,
   notes: String,
   rating: Number,
+  address: String,
+  image: String,
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
