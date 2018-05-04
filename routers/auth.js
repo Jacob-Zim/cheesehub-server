@@ -10,7 +10,7 @@ const config = require('../config');
 
 const { JWT_SECRET, JWT_EXPIRY } = config;
 
-const User = require('../models/user');
+const User = require('../models/User');
 
 function createAuthToken (user) {
   return jwt.sign({ user }, JWT_SECRET, {
