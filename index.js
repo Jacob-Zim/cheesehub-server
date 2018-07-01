@@ -22,8 +22,6 @@ const bodyParser = require('body-parser');
 const spotsRouter = require('./routers/spots');
 const authRouter = require('./routers/auth');
 
-const mapsURL = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAs68Fqn-liAuXfca9XygzOMByadH3KnKg&callback=initMap';
-
 //create a spots router once I start on the next endpoint
 
 app.use(
