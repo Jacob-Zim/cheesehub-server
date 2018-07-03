@@ -139,6 +139,7 @@ const localAuth = passport.authenticate('local', options);
 // const jwtAuth = passport.authenticate('jwt', options);
 // POST USER INFO TO LOGIN TO SERVER, USES LOCAL FILE ../passport/local.js
 router.post('/login', localAuth, function (req, res) {
+  console.log(req.user);
   const authToken = createAuthToken(req.user);
   return res.json({ authToken });
 });

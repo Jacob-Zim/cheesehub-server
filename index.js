@@ -12,9 +12,6 @@ const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
 const app = express();
 
-passport.use(localStrategy);
-passport.use(jwtStrategy);
-
 const Spot = require('./models/Spot');
 
 const bodyParser = require('body-parser');
@@ -22,7 +19,8 @@ const bodyParser = require('body-parser');
 const spotsRouter = require('./routers/spots');
 const authRouter = require('./routers/auth');
 
-//create a spots router once I start on the next endpoint
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
@@ -37,10 +35,6 @@ app.use(
 );
 
 //parses our json for us
-app.use(bodyParser.urlencoded({
-  extended:true
-}));
-
 app.use(bodyParser.json());
 
 app.use('/', authRouter);
